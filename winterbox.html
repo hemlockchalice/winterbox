@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>WinterBox</title>
+<link rel="stylesheet" href="winterbox.css"> <!-- Link to external CSS -->
+</head>
+<body>
+<div id="fade-overlay"></div>
+<div class="background night-background"></div>
+<div id="pixel-container"></div>
+
+
+<div id="header-container">
+    <p><i>WinterBox</i></p>
+    <a href="winterbox_score.html">Scores</a>
+    <button id="Fullscreen" onclick="toggleFullScreen()">FullScreen</button>
+    <button id="Pause-Button" onclick="PauseGame()">Pause</button>
+</div>
+
+<div id="dev-container">
+    <button id="Dev-Button" onclick="DevButton()">DEV</button>
+    <button id="Dev-Button2" onclick="DevButton2()">DEV RSRCS</button>
+    <p id="t">Time: </p>
+</div>
+
+
+<div id="UI-container">
+    <div id="button-container">
+        <button id="Cut-Wood" onclick="CutWood()">Cut Wood</button>
+        <button id="Stoke-Fire" onclick="StokeFire()">Start Fire</button>
+        <button id="Exterminate-Fire" onclick="ExterminateFire()">Exterminate Fire</button>
+        <button id="Get-Ice" onclick="GetIce()">Get Ice</button>
+
+        <button id="Hunt" onclick="Hunt()">Hunt</button>
+        <button id="Trap" onclick="Trap()">Trap</button>
+        <button id="Gather" onclick="Gather()">Gather</button>
+        <button id="Forage" onclick="Forage()">Forage</button>
+
+        <button id="Cook-Meat" onclick="CookMeat()">Cook Meat</button>
+        <button id="Boil-Menu" onclick="BoilMenu()">Boil</button>
+        <button id="Search" onclick="toggleSearchMenu()">Search</button>
+        <button id="RepairCabin" onclick="RepairCabin()">Repair Cabin</button>
+    </div>
+
+    <div id="climb-mountain-button-container">
+        <button id="Mountain" onclick="toggleMountainWarningMenu()">Climb The Mountain</button>
+    </div>
+
+    <div id="character-button-container">
+        <button id="Inventory" onclick="toggleInventoryMenu()">Inventory</button>
+        <button id="Craft" onclick="toggleCraftMenu()">Craft</button>
+        <button id="Equipment" onclick="toggleEquipmentMenu()">Equipment</button>
+        <button id="Read-Books" onclick="ReadBook()">Read A Book</button>
+    </div>
+</div>
+
+
+<div id="temperature-label-container">
+    <p id="Room-Temperature"></p>
+    <p id="Temperature"></p>
+</div>
+
+<div id="status-label-container">
+    <p id="Time"></p>
+    <p id="Day"></p>
+    <p id="Hunger"></p>
+    <p id="Thirst"></p>
+    <p id="Cabin"></p>
+</div>
+
+
+
+
+<div id="search-menu" class="search-menu">
+    <button id="closeSearchmenu" class="close-btn" onclick="toggleSearchMenu()">X</button>
+    <p>Search</p>
+    <button onclick="SearchNear()">Near</button>
+    <button onclick="SearchFar()">Far</button>
+</div>
+
+<div id="book-menu" class="book-menu">
+    <button id="closeBookmenu" class="close-btn" onclick="ReadBook()">X</button>
+    <button onclick="OpenBook('survival')">A Mountaineer's Guide To Survival</button>
+    <button onclick="OpenBook('stoic')">The Frozen Stoic</button>
+</div>
+
+<div id="bookwindow" class="bookwindow">
+    <button id="closeBookwindow" class="close-btn" onclick="ReadBook()">X</button>
+    <p id="book-content"></p>
+    <button id="Book-Left" onclick="BookLeft()">←</button>
+    <button id="Book-Right" onclick="BookRight()">→</button>
+</div>
+
+<div id="craftmenu" class="craftmenu">
+    <div id="craft-left" class="craft-column">
+        <button id="closeCraftmenu" class="close-btn" onclick="toggleCraftMenu()">X</button>
+        <button id="Craft-Arrows" onclick="CraftArrows()">Arrows (x2)<br>x10 Wood, x2 Flint)</button>
+        <button id="Craft-Bucket" onclick="CraftBucket()">Bucket (x1)<br>x10 Wood</button>
+        <button id="Craft-Rope" onclick="CraftRope()">Rope (x1)<br>x2 Sinew</button>
+        <button id="Craft-Tonic" onclick="CraftTonic()">Tonic (x1)<br>x5 Arctic Willow, x1 Water</button>
+        <button id="Craft-Leather" onclick="CraftLeather()">Leather (x1)<br>x2 Hides</button>
+        <button id="Craft-Traps" onclick="CraftTraps()">Trap (x1)<br>x20 Wood, x1 Rope</button>
+        <button id="Craft-Torch" onclick="CraftTorch()">Torch<br>x30 Wood</button>
+        <button id="Craft-Flute" onclick="CraftFlute()">Flute<br>x30 Wood</button>
+    </div>
+
+    <div id="craft-right" class="craft-column">
+        <button id="Craft-Bow" onclick="CraftBow()">Bow<br>x30 Wood, x2 Sinew</button>
+        <button id="Craft-Icebox" onclick="CraftIcebox()">Icebox<br>x30 Wood, x5 Leather</button>
+        <button id="Craft-Cloak" onclick="CraftCloak()">Cloak<br>x10 Leather</button>
+        <button id="Craft-Gloves" onclick="CraftGloves()">Gloves<br>x10 Leather</button>
+        <button id="Craft-Coat" onclick="CraftCoat()">Coat<br>x10 Leather</button>
+        <button id="Craft-LongJohns" onclick="CraftLongJohns()">Long Johns<br>x10 Leather</button>
+        <button id="Craft-SnowBoots" onclick="CraftSnowBoots()">Snow Boots<br>x10 Leather</button>
+        <button id="Craft-Satchel" onclick="CraftSatchel()">Satchel<br>x10 Leather</button>
+    </div>
+</div>
+
+<div id="inventorymenu" class="inventorymenu">
+    <div id="inventory-left" class="inventory-column">
+        <button id="closeInventorymenu" class="close-btn" onclick="toggleInventoryMenu()">X</button>
+        <p id="Wood"></p>
+        <p id="Hides"></p>
+        <p id="Leather"></p>
+        <p id="Raw-Meat"></p>
+        <p id="Buckets"></p>
+        <p id="Ice"></p>
+        <p id="Sinew"></p>
+        <p id="Adhesive"></p>
+        <p id="Rope"></p>
+        <p id="Flint"></p>
+        <p id="Arrows"></p>
+        <p id="Arctic-Willow"></p>
+        <p id="Traps"></p>
+    </div>
+    <div id="inventory-right" class="inventory-column">
+        <div class="inventory-item">
+            <p id="Meat"></p>
+            <button id="Eat-Meat" onclick="EatMeat()">Eat Meat</button>
+        </div>
+        <div class="inventory-item">
+            <p id="Snow-Berries"></p>
+            <button id="Eat-Berries" onclick="EatBerries()">Eat Berries</button>
+        </div>
+        <div class="inventory-item">
+            <p id="Water"></p>
+            <button id="Drink-Water" onclick="DrinkWater()">Drink Water</button>
+        </div>
+        <div class="inventory-item">
+            <p id="Tonics"></p>
+            <button id="Drink-Tonic" onclick="DrinkTonic()">Drink Tonic</button>
+        </div>
+    </div>
+</div>
+
+<div id="equipmentmenu" class="equipmentmenu">
+    <button id="closeEquipmentmenu" class="close-btn" onclick="toggleEquipmentMenu()">X</button>
+    <div id="equipment-left" class="equipment-column">
+        <p id="Icebox"></p>
+        <p id="Icepick"></p>
+        <p id="Torch"></p>
+    </div>
+    <div id="equipment-right" class="equipment-column">
+        <p id="Bow"></p>
+        <p id="Cloak"></p>
+        <p id="Gloves"></p>
+        <p id="Coat"></p>
+        <p id="LongJohns"></p>
+        <p id="SnowBoots"></p>
+    </div>
+</div>
+
+<div id="cook-meat-container" style="display: none;">
+    <img src="graphics/pan.png" width="150" height="150">
+    <button id="Stop-Cooking" onclick="StopCooking()">Stop Cooking</button>
+</div>
+
+<div id="boil-water-container" style="display: none;">
+    <img src="graphics/pot.png" width="150" height="150">
+    <button id="Boil-Water" onclick="BoilWater()">Boil Water</button>
+    <button id="Boil-Sinew" onclick="BoilSinew()">Boil Sinew</button>
+    <button id="Stop-Boiling" onclick="StopBoiling()">Stop Boiling</button>
+</div>
+
+<div id="girl-menu-container" style="display: none;">
+    <p id="Strange-Girl">Strange Girl</p>
+    <input type="radio" id="cut-wood-radio" name="task" value="cut-wood" onchange="updateTask()">
+    <label for="cut-wood-radio">Cut Wood</label>
+    <input type="radio" id="get-ice-radio" name="task" value="get-ice" onchange="updateTask()">
+    <label for="get-ice-radio">Get Ice</label>
+    <button id="give-gift" onclick="toggleGiftMenu()">Give Gift</button>
+    <p id="Girl-Hunger"></p>
+    <p id="Girl-Thirst"></p>
+</div>
+<div id="giftmenu" class="giftmenu" style="display: none;">
+    <button id="closeGiftmenu" class="close-btn" onclick="toggleGiftMenu()">X</button>
+    <button id="give-meat" onclick="GiveMeat()">Give Meat</button>
+    <button id="give-snow-berries" onclick="GiveSnowBerries()">Give Snow-Berries</button>
+    <button id="give-water" onclick="GiveWater()">Give Water</button>
+    <button id="give-tonic" onclick="GiveTonic()">Give Tonic</button>
+    <button id="give-flute" onclick="GiveFlute()">Give Flute</button>
+    <button id="give-arctic-willow" onclick="GiveArcticWillow()">Give Arctic Willow</button>
+</div>
+
+<div id="merchant-menu-container" style="display: none;">
+    <p id="Merchant">Merchant</p>
+    <button id="Trade-Hides" onclick="TradeHides()">Trade Hides</button>
+</div>
+
+
+<!-- MOUNTAIN -->
+<div id="mountainwarningmenu" class="mountainwarningmenu">
+    <p>The path up the mountain is extremely dangerous...</p>
+    <br>
+    <button id="Stay" onclick="toggleMountainWarningMenu()">Stay</button>
+    <button id="Proceed" onclick="toggleSatchelMenu()">Proceed</button>
+</div>
+
+<div id="satchelmenu" class="satchelmenu">
+    <button id="closeSatchelmenu" class="close-btn" onclick="toggleSatchelMenu()">X</button>
+    <p>Satchel</p>
+    <p id="Satchel-Weight"></p>
+    <div class="item-row">
+        <button id="Satchel-Remove-Wood" onclick="SatchelRemoveWood()">-</button>
+        <p id="Wood2"></p>
+        <p id="Satchel-Wood"></p>
+        <button id="Satchel-Add-Wood" onclick="SatchelAddWood()">+</button>
+    </div>
+
+    <div class="item-row">
+        <button id="Satchel-Remove-Hides" onclick="SatchelRemoveHides()">-</button>
+        <p id="Hides2"></p>
+        <p id="Satchel-Hides"></p>
+        <button id="Satchel-Add-Hides" onclick="SatchelAddHides()">+</button>
+    </div>
+
+    <div class="item-row">
+        <button id="Satchel-Remove-Rope" onclick="SatchelRemoveRope()">-</button>
+        <p id="Rope2"></p>
+        <p id="Satchel-Rope"></p>
+        <button id="Satchel-Add-Rope" onclick="SatchelAddRope()">+</button>
+    </div>
+
+    <div class="item-row">
+        <button id="Satchel-Remove-Meat" onclick="SatchelRemoveMeat()">-</button>
+        <p id="Meat2"></p>
+        <p id="Satchel-Meat"></p>
+        <button id="Satchel-Add-Meat" onclick="SatchelAddMeat()">+</button>
+    </div>
+
+    <div class="item-row">
+        <button id="Satchel-Remove-SnowBerries" onclick="SatchelRemoveSnowBerries()">-</button>
+        <p id="Snow-Berries2"></p>
+        <p id="Satchel-Snow-Berries"></p>
+        <button id="Satchel-Add-SnowBerries" onclick="SatchelAddSnowBerries()">+</button>
+    </div>
+
+    <div class="item-row">
+        <button id="Satchel-Remove-Water" onclick="SatchelRemoveWater()">-</button>
+        <p id="Water2"></p>
+        <p id="Satchel-Water"></p>
+        <button id="Satchel-Add-Water" onclick="SatchelAddWater()">+</button>
+    </div>
+
+    <button id="SatchelTakeAll" onclick="SatchelTakeAll()">Withdraw All</button>
+    <button id="Mountain-Proceed" onclick="ClimbMountain()">Proceed</button>
+</div>
+
+<div id="Mountain-container">
+    <div id="mountain-button-container">
+        <button id="Go-Back" onclick="GoBack()">Go Back</button>
+        <button id="Make-Camp" onclick="MakeCamp()">Make Camp<br>x10 Wood, x2 Hides</button>
+    </div>
+
+    <div id="mountain-character-button-container">
+        <button id="Satchel" onclick="toggleSatchelInventoryMenu()">Satchel</button>
+    </div>
+
+    <div id="satchelinventorymenu" class="satchelinventorymenu">
+        <button id="closeSatchelInventorymenu" class="close-btn" onclick="toggleSatchelInventoryMenu()">X</button>
+        <div id="satchelinventory-left" class="satchelinventory-column">
+            <p id="Satchel-Wood2"></p>
+            <p id="Satchel-Hides2"></p>
+            <p id="Satchel-Rope2"></p>
+        </div>
+        <div id="satchelinventory-right" class="satchelinventory-column">
+            <div class="satchelinventory-item">
+                <p id="Satchel-Meat2"></p>
+                <button id="Eat-Meat2" onclick="EatMeat()">Eat Meat</button>
+            </div>
+            <div class="satchelinventory-item">
+                <p id="Satchel-Snow-Berries2"></p>
+                <button id="Eat-Berries2" onclick="EatBerries()">Eat Berries</button>
+            </div>
+            <div class="satchelinventory-item">
+                <p id="Satchel-Water2"></p>
+                <button id="Drink-Water2" onclick="DrinkWater()">Drink Water</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- SCROLLING TEXT-->
+<div id="text-container"></div>
+
+<!-- AUDIO -->
+<!-- FIRE -->
+<audio id="match_sfx" src="audio/match_sfx.wav" preload="auto"></audio>
+<audio id="fire1_sfx" src="audio/fire1_sfx.wav" preload="auto"></audio>
+<audio id="stoke_fire_sfx" src="audio/stoke_fire_sfx.wav" preload="auto"></audio>
+<audio id="fire_extinguish_sfx" src="audio/fire_extinguish_sfx.wav" preload="auto"></audio>
+
+<!-- WOOD -->
+<audio id="wood_sfx" src="audio/wood_sfx.wav" preload="auto"></audio>
+<audio id="wood_chop_sfx" src="audio/wood_chop_sfx.wav" preload="auto"></audio>
+
+<!-- HUNTING -->
+<audio id="hunt_start_sfx" src="audio/hunt_start_sfx.wav" preload="auto"></audio>
+<audio id="leaves_sfx" src="audio/leaves_sfx.wav" preload="auto"></audio>
+<audio id="hunted_sfx" src="audio/hunted_sfx.wav" preload="auto"></audio>
+
+<!-- GET ICE -->
+<audio id="get_ice_start_sfx" src="audio/get_ice_start_sfx.wav" preload="auto"></audio>
+<audio id="get_ice_finish_sfx" src="audio/get_ice_finish_sfx.wav" preload="auto"></audio>
+
+<!-- GET WATER -->
+<audio id="get_water_start_sfx" src="audio/get_water_start_sfx.wav" preload="auto"></audio>
+<audio id="get_water_frozen_sfx" src="audio/get_water_frozen_sfx.wav" preload="auto"></audio>
+<audio id="get_water_sfx" src="audio/get_water_sfx.wav" preload="auto"></audio>
+
+<!-- CRAFTING -->
+<audio id="craft_start_sfx" src="audio/craft_start_sfx.wav" preload="auto"></audio>
+<audio id="crafting_sfx" src="audio/crafting_sfx.wav" preload="auto"></audio>
+
+<!-- COOK MEAT -->
+<audio id="cookmeat_start_sfx" src="audio/cookmeat_start_sfx.wav" preload="auto"></audio>
+<audio id="cookmeat_sfx" src="audio/cookmeat_sfx.wav" preload="auto"></audio>
+<audio id="cookmeat_fail_sfx" src="audio/cookmeat_fail_sfx.wav" preload="auto"></audio>
+
+<!-- BOIL WATER -->
+<audio id="boilwater_start_sfx" src="audio/boilwater_start_sfx.wav" preload="auto"></audio>
+<audio id="boilwater_sfx" src="audio/boilwater_sfx.wav" preload="auto"></audio>
+<audio id="stop_boiling_sfx" src="audio/stop_boiling_sfx.wav" preload="auto"></audio> <!-- also used for cook meat, general pan sound -->
+<audio id="boilwater_fail_sfx" src="audio/boilwater_fail_sfx.wav" preload="auto"></audio>
+
+<!-- GATHER -->
+<audio id="gather_start_sfx" src="audio/gather_start_sfx.wav" preload="auto"></audio>
+<audio id="gather_finish_sfx" src="audio/gather_finish_sfx.wav" preload="auto"></audio>
+
+<!-- FORAGE -->
+<audio id="forage_start_sfx" src="audio/forage_start_sfx.wav" preload="auto"></audio>
+<audio id="forage_finish_sfx" src="audio/forage_finish_sfx.wav" preload="auto"></audio>
+
+<!-- SEARCH -->
+<audio id="search_start_sfx" src="audio/search_start_sfx.wav" preload="auto"></audio>
+<audio id="search_finish_sfx" src="audio/search_finish_sfx.wav" preload="auto"></audio>
+
+<!-- TRAP -->
+<audio id="trap_start_sfx" src="audio/trap_start_sfx.wav" preload="auto"></audio>
+<audio id="trap_finish_sfx" src="audio/trap_finish_sfx.wav" preload="auto"></audio>
+
+<!-- REPAIR CABIN -->
+<audio id="repair_cabin_start_sfx" src="audio/repair_cabin_start_sfx.wav" preload="auto"></audio>
+<audio id="repair_cabin_finish_sfx" src="audio/repair_cabin_finish_sfx.wav" preload="auto"></audio>
+
+<!-- TONIC -->
+<audio id="drink_tonic_sfx" src="audio/drink_tonic_sfx.wav" preload="auto"></audio>
+
+<!-- WEATHER -->
+<audio id="rain_sfx" src="audio/rain_sfx.wav" preload="auto"></audio>
+<audio id="wind_sfx" src="audio/wind_sfx.wav" preload="auto"></audio>
+
+<!-- BOOK -->
+<audio id="book_open_sfx" src="audio/book_open_sfx.wav" preload="auto"></audio>
+<audio id="page_sfx" src="audio/page.wav" preload="auto"></audio>
+
+<!-- GAME -->
+<audio id="gamestart_flute" src="audio/gamestart_flute.wav" preload="auto"></audio>
+<audio id="gameover_flute" src="audio/gameover_flute.wav" preload="auto"></audio>
+
+<!-- CHLOE -->
+<audio id="girl_flute_1_sfx" src="audio/girl_flute_1_sfx.wav" preload="auto"></audio>
+<audio id="girl_flute_2_sfx" src="audio/girl_flute_2_sfx.wav" preload="auto"></audio>
+<audio id="girl_flute_3_sfx" src="audio/girl_flute_3_sfx.wav" preload="auto"></audio>
+
+<!-- RANDOMS DAY -->
+<audio id="bird_ran" src="audio/winter_wren.wav" preload="auto"></audio>
+<audio id="woodcreak_ran" src="audio/wood_creaking.wav" preload="auto"></audio>
+<audio id="rustling_trees_ran" src="audio/rustling_trees_sfx.wav" preload="auto"></audio>
+<audio id="icicle_ran" src="audio/icicle_sfx.wav" preload="auto"></audio>
+<audio id="ruffle_snow_ran" src="audio/ruffle_snow_sfx.wav" preload="auto"></audio>
+<audio id="shadowed_sound_ran" src="audio/shadowed_sound_sfx.wav" preload="auto"></audio>
+<audio id="tree_snow_ran" src="audio/tree_snow_sfx.wav" preload="auto"></audio>
+
+<!-- RANDOMS NIGHT -->
+<audio id="owl_ran" src="audio/owl_sfx.wav" preload="auto"></audio>
+<audio id="wolf_howl_ran" src="audio/wolf_howl_sfx.wav" preload="auto"></audio>
+<audio id="bear_ran" src="audio/bear_sfx.wav" preload="auto"></audio>
+<audio id="full_moon_ran" src="audio/full_moon_sfx.wav" preload="auto"></audio>
+<audio id="constellation_ran" src="audio/constellation_sfx.wav" preload="auto"></audio>
+<audio id="north_star_ran" src="audio/north_star_sfx.wav" preload="auto"></audio>
+<audio id="strange_noise_ran" src="audio/strange_noise_sfx.wav" preload="auto"></audio>
+<audio id="aurora_ran" src="audio/aurora_sfx.wav" preload="auto"></audio>
+
+<!-- RANDOMS OTHER -->
+<audio id="scoundrel_woodpile_ran" src="audio/scoundrel_woodpile_sfx.wav" preload="auto"></audio>
+
+<!-- ICONS -->
+
+<script src="winterbox.js"></script>
+</body>
+</html>
+

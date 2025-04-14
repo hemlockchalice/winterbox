@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Score</title>
+    <style>
+        body {
+            background-color: #050421;
+            color: #eeeeee;
+            font-size: 19px;
+        }
+        h1 {
+            text-align: center;
+            color: #FFAD00;
+        }
+        button {
+            position: absolute;
+            top: 10%;   /* Change this to move it vertically */
+            left: 47%;  /* Change this to move it horizontally */
+            color: #000000;
+            text-align: center;
+            font-size: 17px;
+            }
+
+        #confirmationPopup {
+            background-color: #777777 !important;
+            color: #FFAD00;
+            text-align: center;
+            padding: 20px;
+            width: 300px;
+            height: 200px;
+            border-radius: 10px;
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+        }
+        #confirmationPopup p{
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        #cp_yes {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: 2px solid #000000;
+            border-radius: 5px;
+            background-color: #dddddd;
+            color: #000000;
+            position: absolute;
+            top: 60%;
+            right: 20%;
+        }
+        #cp_no {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: 2px solid #000000;
+            border-radius: 5px;
+            background-color: #dddddd;
+            color: #000000;
+            position: absolute;
+            top: 60%;
+            left: 20%;
+        }
+    </style>
+</head>
+<body>
+    <h1><u>WinterBox Scores</u></h1>
+    <button onclick="askConfirmation()">Clear Scores</button>
+    <ul id="scoreList">Loading scores...</ul> <!-- This will display all scores -->
+
+    <!-- Simple Popup for confirmation -->
+    <div id="confirmationPopup" style="display:none; position: absolute; border: 1px solid #000; background-color: white; width: 300px; padding: 20px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+        <p>Are you sure you want to clear all scores?</p>
+        <button id="cp_yes" onclick="ClearScores()">Yes</button>
+        <button id="cp_no" onclick="closePopup()">No</button>
+    </div>
+
+    <script>
+        window.onload = function() {
+            displayScores();  // Display scores when the page loads
+        };
+
+        function displayScores() {
+            // Retrieve the scores array from localStorage
+            const scores = JSON.parse(localStorage.getItem('gameScores')) || [];
+
+            const scoreList = document.getElementById('scoreList');
+
+            // If there are scores, display them
+            if (scores.length > 0) {
+                scoreList.innerHTML = '';  // Clear "Loading scores..."
+                scores.forEach((scoreData, index) => {
+                    const li = document.createElement('li');
+                    li.textContent = `${index + 1}: ${scoreData.name} - ${scoreData.score}`;  // Display name and score
+                    scoreList.appendChild(li);
+                });
+            } else {
+                scoreList.innerHTML = '<li>No scores found!</li>';
+            }
+        }
+
+
+        function askConfirmation() {
+            // Show the confirmation popup
+            document.getElementById('confirmationPopup').style.display = 'block';
+        }
+
+        function ClearScores() {
+            // Clear scores from localStorage
+            localStorage.removeItem('gameScores');
+
+            // Refresh the displayed scores
+            displayScores();
+
+            // Close the confirmation popup
+            closePopup();
+        }
+
+        function closePopup() {
+            // Hide the confirmation popup
+            document.getElementById('confirmationPopup').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

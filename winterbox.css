@@ -1,0 +1,1512 @@
+/*
+#FFA500    orange
+#4ec1db    ice blue light
+#adf0ff    mountain ice blue
+#1798d8   trap blue
+#c60000    blood red
+#228B22    forest green
+#0f3f0f    dark forest
+#2eff00    green-is-go
+#000000, #2b1c00, #222222, #1f003a, #000000 default
+#ff0000, #000000, #2b1c00, #ff0000  fire
+*/
+
+html {
+    background: #000000;
+}
+
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    transition: opacity 0.5s ease-in-out;
+    z-index: -1; /* Push background behind everything else */
+}
+
+.fade-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    opacity: 0;
+    z-index: -1; /* Ensure it stays in the background */
+}
+
+.night-background {
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(45deg, #000000, #2b1c00, #222222, #1f003a, #000000);
+    background-size: 300% 300%;
+    animation: gradientAnimation 60s ease infinite;
+    will-change: background-position;
+}
+
+.dawn-background {
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(45deg, #26405b, #919692, #4a77a0, #cfd0ca);
+    background-size: 300% 300%;
+    animation: gradientAnimation 60s ease infinite;
+    will-change: background-position;
+}
+
+.noon-background {
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(45deg, #f5f6ff, #759bd7, #5b6982, #a6cbfe, #ebf2fd);
+    background-size: 300% 300%;
+    animation: gradientAnimation 60s ease infinite;
+    will-change: background-position;
+}
+
+.dusk-background {
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(45deg, #8285bf, #928285, #e87537);
+    background-size: 300% 300%;
+    animation: gradientAnimation 60s ease infinite;
+    will-change: background-position;
+}
+
+
+.night-fire-background {
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(22.5deg, #ba4a05, #111111, #1c024c);
+    background-size: 300% 100%;
+    animation: gradientAnimation 30s ease infinite;
+    will-change: background-position;
+}
+
+.dawn-fire-background {
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(22.5deg, #ba4a05, #6f726f, #e86655);
+    background-size: 300% 100%;
+    animation: gradientAnimation 30s ease infinite;
+    will-change: background-position;
+}
+
+.noon-fire-background {
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(22.5deg, #ba4a05, #0298fc, #0262fc);
+    background-size: 300% 100%;
+    animation: gradientAnimation 30s ease infinite;
+    will-change: background-position;
+}
+
+.dusk-fire-background {
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(22.5deg, #ba4a05, #0993ba, #f98b31);
+    background-size: 300% 100%;
+    animation: gradientAnimation 30s ease infinite;
+    will-change: background-position;
+}
+
+.cabin-fire-background {
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(0deg, #222222, #880000, #222222);
+    background-size: 100% 1000%;
+    background-repeat: no-repeat;
+    animation: gradientAnimationUp 7s linear infinite;
+    will-change: background-position;
+}
+
+
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    25% {
+        background-position: 50% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    75% {
+        background-position: 50% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes gradientAnimationUp {
+    0% {
+        background-position: 0% 0%;
+    }
+    25% {
+        background-position: 0% 25%;
+    }
+    50% {
+        background-position: 0% 50%;
+    }
+    75% {
+        background-position: 0% 75%;
+    }
+    100% {
+        background-position: 0% 100%; /* Make sure it reaches exactly the end */
+    }
+}
+
+#pixel-container {
+    position: absolute;
+    width: 100vw;  /* Cover full width */
+    height: 100vh;  /* Cover full height */
+    top: 0;
+    left: 0;
+    z-index: 0;  /* Ensure it's on top of other elements */
+    pointer-events: none;  /* Prevent the pixels from blocking interactions with other elements */
+    overflow: hidden;
+}
+
+.burn-pixel {
+    width: 5px;
+    height: 5px;
+    background-color: #7c5101;
+    position: absolute;
+    border: 1px solid #cc0000; /* Add a border to help visualize */
+    opacity: 0.75;
+    animation: move-Burn-Pixel 3s linear infinite;
+    animation-delay: calc(-1s * var(--i));
+}
+
+@keyframes move-Burn-Pixel {
+    0% {
+        transform: translate(0, 100vh); /* Start off-screen from the bottom */
+    }
+    100% {
+        transform: translate(0, -100vh); /* Move to the top of the screen, effectively looping from bottom to top */
+    }
+}
+
+.snow-pixel {
+    width: 5px;
+    height: 5px;
+    background-color: #eeeeee;
+    position: absolute;
+    border: 1px solid #aaaaaa; /* Add a border to help visualize */
+    opacity: 0.5;
+    animation: move-Snow-Pixel 5s linear infinite;
+    animation-delay: calc(-2s * var(--i));
+}
+
+@keyframes move-Snow-Pixel {
+    0% {
+        transform: translate(0, -100vh);
+    }
+    100% {
+        transform: translate(0, 100vh);
+    }
+}
+
+.rain-pixel {
+    width: 1px;
+    height: 80px;
+    background-color: #6b90bf;
+    position: absolute;
+    border: 1px solid #aaaaaa; /* Add a border to help visualize */
+    opacity: 0.5;
+    animation: move-Rain-Pixel 1s linear infinite;
+    animation-delay: calc(-2s * var(--i));
+}
+
+@keyframes move-Rain-Pixel {
+    0% {
+        transform: translate(0, -100vh);
+    }
+    100% {
+        transform: translate(0, 100vh);
+    }
+}
+
+.wind-pixel {
+    width: 120px;
+    height: 1px;
+    background-color: #6b90bf;
+    position: absolute;
+    border: 1px solid #aaaaaa; /* Add a border to help visualize */
+    opacity: 0.25;
+    animation: move-Wind-Pixel 3s linear infinite;
+    animation-delay: calc(-1s * var(--i));
+}
+
+@keyframes move-Wind-Pixel {
+    0% {
+        transform: translate(-100vh, 0vh);
+    }
+    100% {
+        transform: translate(100vh, 0vh);
+    }
+}
+
+#fade-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: 0; /* Initially invisible */
+    pointer-events: none; /* Make it non-interactive */
+    transition: opacity 2s ease; /* Duration and easing for the fade effect */
+    z-index: 9999;
+}
+.fade-in {
+    opacity: 1;
+    transition: opacity 10s ease;
+}
+
+.fade-out {
+    opacity: 0;
+    transition: opacity 2s ease;
+}
+
+
+#dev-container {
+    position: absolute;
+    top: 3%;
+    right: 9%;
+    transform: translate(-50%, -50%);
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+}
+#dev-container p{
+    margin: 10px;
+    color: #FFA500;
+    text-shadow: 2px 2px 5px black;
+}
+
+
+
+
+/*HEADER*/
+#header-container {
+    position: absolute;
+    top: 3%;
+    left:12%;
+    transform: translate(-50%, -50%);
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    gap: 2px;
+}
+#header-container p{
+    margin: 10px;
+    color: #FFA500;
+    text-shadow: 2px 2px 5px black;
+}
+#header-container a{
+    margin: 10px;
+    color: #FFA500;
+    text-shadow: 2px 2px 5px black;
+}
+#header-container button{
+    margin: 10px;
+    background: #222222;
+    color: #FFA500;
+    text-shadow: 2px 2px 5px black;
+}
+
+
+#UI-container {
+    visibility: visible; /* Make sure the UI-container is visible by default */
+}
+
+/*BUTTONS*/
+#button-container {
+    position: absolute;
+    top: 25%;
+    left: 30%;
+    transform: translate(-50%, -50%);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Two columns */
+    align-items: center;
+    z-index: 10;
+}
+#button-container button{
+    border: 2px solid #777777;
+    width: 150px;
+    height: 35px;
+    margin: 10px;
+    background: linear-gradient(to bottom, #111111, #555555);
+    color: #FFA500;
+    text-shadow: 2px 2px 5px black;
+}
+#button-container button:hover{
+    border: 2px solid #999999;
+    margin: 10px;
+    background: linear-gradient(to bottom, #111111, #666666);
+    color: #FFA500;
+}
+
+#character-button-container {
+    position: absolute;
+    top: 40%;
+    left: 30%;
+    transform: translate(-50%, -50%);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Two columns */
+    align-items: center;
+    z-index: 10;
+}
+#character-button-container button{
+    border: 2px solid #777777;
+    width: 150px;
+    height: 35px;
+    margin: 10px;
+    background: linear-gradient(to bottom, #111111, #245a66);
+    color: #FFA500;
+    text-shadow: 2px 2px 5px black;
+}
+#character-button-container button:hover{
+    border: 2px solid #999999;
+    margin: 10px;
+    background: linear-gradient(to bottom, #111111, #4ec1db);
+    color: #FFA500;
+}
+
+
+
+#climb-mountain-button-container {
+    position: absolute;
+    top: 50%;
+    left: 43%;
+    transform: translate(-50%, -50%);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Two columns */
+    align-items: center;
+    z-index: 10;
+}
+#climb-mountain-button-container button{
+    border: 2px solid #eeeeee;
+    width: 150px;
+    height: 35px;
+    margin: 10px;
+    background: linear-gradient(to bottom, #aaaaaa, #4ec1db);
+    color: #dddddd;
+    text-shadow: 2px 2px 5px black;
+}
+#climb-mountain-button-container button:hover{
+    border: 2px solid #ffffff;
+    margin: 10px;
+    background: linear-gradient(to bottom, #4ec1db, #FFA500);
+    color: #ffffff;
+}
+.mountainwarningmenu {
+    background: linear-gradient(to bottom, rgba(128, 68, 4, 0.3), rgba(112, 27, 27, 0.3));
+    border: 1px solid #FFA500;
+    border-radius: 10px;
+    display: none;  /* Hidden by default */
+    position: fixed; /* Centered in viewport */
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Center the element */
+    background-color: #444;
+    color: #FFA500;
+    padding: 20px;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    z-index: 999;
+    visibility: hidden;
+    pointer-events: none;
+
+    grid-template-columns: repeat(2, 1fr); /* Two equal columns */
+    grid-gap: 20px; /* Spacing between items */
+    justify-items: center; /* Center items horizontally */
+    align-items: center; /* Center items vertically */
+}
+
+.mountainwarningmenu.show {
+    display: grid;
+    opacity: 1;  /* Fade in */
+    visibility: visible;  /* Ensure it's visible */
+    pointer-events: auto;  /* Allows interactions */
+    transition: opacity 0.3s ease-in-out, visibility 0s;  /* Instantly show visibility when fading in */
+}
+.mountainwarningmenu p {
+    justify-self: center; /* Center horizontally */
+    text-align: center; /* Center text within the <p> tag */
+}
+
+.mountainwarningmenu button {
+    border: 2px solid #777777;
+    padding: 10px 20px; /* Increase padding for better touch area */
+    background: linear-gradient(to bottom, #111111, #555555);
+    color: #FFA500;
+    text-align: center;
+    cursor: pointer;
+    width: 100px; /* Set a consistent width */
+}
+
+.mountainwarningmenu .close-btn {
+    position: absolute;
+    top: -15px; /* Move it slightly above the border */
+    right: -21px; /* Move it slightly outside the border */
+    background-color: red;
+    color: white;
+    border: 2px solid #FFA500;
+    font-size: 14px; /* Adjust font size for better centering */
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Ensures the "X" is centered */
+    text-align: center;
+    line-height: normal; /* Prevents off-center text */
+    box-sizing: border-box; /* Include padding and border in the width/height */
+}
+
+.satchelmenu {
+    background: linear-gradient(to bottom, rgba(128, 68, 4, 0.3), rgba(112, 27, 27, 0.3));
+    border: 1px solid #FFA500;
+    border-radius: 10px;
+    display: none;  /* Hidden by default */
+    position: fixed; /* Centered in viewport */
+    width: 600px;
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Center the element */
+    background-color: #444;
+    color: #FFA500;
+    padding: 20px;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    z-index: 999;
+    visibility: hidden;
+    pointer-events: none;
+
+    display: flex; /* Use Flexbox */
+    flex-direction: column; /* Stack items vertically */
+    gap: 10px; /* Space between items */
+}
+
+.item-row {
+    display: flex; /* Use Flexbox for each item row */
+    align-items: center; /* Center items vertically */
+    justify-content: space-between; /* Space items evenly */
+}
+
+
+.satchelmenu.show {
+    display: grid;
+    opacity: 1;  /* Fade in */
+    visibility: visible;  /* Ensure it's visible */
+    pointer-events: auto;  /* Allows interactions */
+    transition: opacity 0.3s ease-in-out, visibility 0s;  /* Instantly show visibility when fading in */
+}
+.satchelmenu p {
+    justify-self: center; /* Center horizontally */
+    text-align: center; /* Center text within the <p> tag */
+}
+
+.satchelmenu button {
+    border: 2px solid #777777;
+    padding: 10px 20px; /* Increase padding for better touch area */
+    background: linear-gradient(to bottom, #111111, #555555);
+    color: #FFA500;
+    text-align: center;
+    cursor: pointer;
+    width: 100px; /* Set a consistent width */
+}
+
+.satchelmenu .close-btn {
+    position: absolute;
+    top: -15px; /* Move it slightly above the border */
+    right: -21px; /* Move it slightly outside the border */
+    background-color: red;
+    color: white;
+    border: 2px solid #FFA500;
+    font-size: 14px; /* Adjust font size for better centering */
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Ensures the "X" is centered */
+    text-align: center;
+    line-height: normal; /* Prevents off-center text */
+    box-sizing: border-box; /* Include padding and border in the width/height */
+}
+
+.satchelinventorymenu {
+    background: linear-gradient(to bottom, rgba(128, 68, 4, 0.3), rgba(112, 27, 27, 0.3));
+    border: 1px solid #FFA500;
+    border-radius: 10px;
+    display: none;  /* Hidden by default */
+    position: absolute;
+    top: 10%;
+    left: 22%;
+    transform: translateX(-50%);
+    background-color: #444;
+    color: #FFA500;
+    padding: 20px;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    z-index: 999;
+    visibility: hidden;
+    pointer-events: none;
+    display: grid;  /* Use grid layout */
+    grid-template-columns: 1fr 1fr; /* Two equal columns */
+    grid-gap: 20px; /* Spacing between items */
+}
+
+.satchelinventorymenu.show {
+    opacity: 1;  /* Fade in */
+    visibility: visible;  /* Ensure it's visible */
+    pointer-events: auto;  /* Allows interactions */
+    transition: opacity 0.3s ease-in-out, visibility 0s;  /* Instantly show visibility when fading in */
+}
+
+.satchelinventory-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+#satchel-inventory-left {
+    border: 1px solid #FFA500;
+    border-radius: 10px;
+}
+#satchel-inventory-right {
+    border: 1px solid #FFA500;
+    border-radius: 10px;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+/* Ensure buttons are aligned beside labels */
+.satchelinventory-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 10px; /* Space between label and button */
+}
+
+/* Style inventory items */
+.satchelinventorymenu button {
+    border: 2px solid #777777;
+    padding: 5px 10px;
+    background: linear-gradient(to bottom, #111111, #555555);
+    color: #FFA500;
+    text-align: center;
+    cursor: pointer;
+    width: 100px;
+}
+
+/* Close button stays at the top-right */
+.satchelinventorymenu .close-btn {
+    position: absolute;
+    top: -15px; /* Move it slightly above the border */
+    right: -15px; /* Move it slightly outside the border */
+    background-color: red;
+    color: white;
+    border: 2px solid #FFA500;
+    font-size: 14px; /* Adjust font size for better centering */
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Ensures the "X" is centered */
+    text-align: center;
+    line-height: normal; /* Prevents off-center text */
+}
+
+
+#Mountain-container {
+position: absolute;
+top: 25%;
+left: 30%;
+transform: translate(-50%, -50%);
+display: flex;
+flex-direction: column; /* Stack the button containers vertically */
+align-items: center;
+z-index: 10;
+visibility: hidden;
+}
+
+#mountain-button-container,
+#mountain-character-button-container {
+    display: flex;
+    justify-content: center; /* Center the buttons in each container */
+    margin-bottom: 20px; /* Add space between the button groups */
+}
+
+#mountain-button-container button {
+    border: 2px solid #777777;
+    width: 150px;
+    height: 35px;
+    margin: 10px; /* Margin between buttons */
+    background: linear-gradient(to bottom, #111111, #555555);
+    color: #FFA500;
+    text-shadow: 2px 2px 5px black;
+}
+#mountain-character-button-container button {
+    border: 2px solid #777777;
+    width: 150px;
+    height: 35px;
+    margin: 10px; /* Margin between buttons */
+    background: linear-gradient(to bottom, #111111, #555555);
+    color: #FFA500;
+    text-shadow: 2px 2px 5px black;
+}
+
+#mountain-button-container button:hover {
+    border: 2px solid #999999;
+    background: linear-gradient(to bottom, #111111, #666666);
+    color: #FFA500;
+}
+
+#mountain-character-button-container button{
+    border: 2px solid #777777;
+    width: 150px;
+    height: 35px;
+    margin: 10px;
+    background: linear-gradient(to bottom, #111111, #245a66);
+    color: #FFA500;
+    text-shadow: 2px 2px 5px black;
+}
+#mountain-character-button-container button:hover{
+    border: 2px solid #999999;
+    margin: 10px;
+    background: linear-gradient(to bottom, #111111, #4ec1db);
+    color: #FFA500;
+}
+
+
+
+#temperature-label-container {
+    position: absolute;
+    top: 60%;
+    left: 30%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: row;  /* Display messages from bottom to top */
+    align-items: center;
+    color: #ffffff;
+    text-shadow: 2px 2px 5px black;
+}
+#temperature-label-container p{
+    margin: 10px;
+    color: #FFA500;
+    font-size: 18px;
+}
+
+#status-label-container {
+    position: absolute;
+    top: 65%;
+    left: 30%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: row;  /* Display messages from bottom to top */
+    align-items: center;
+    color: #ffffff;
+    text-shadow: 2px 2px 5px black;
+}
+#status-label-container p{
+    margin: 10px;
+    color: #FFA500;
+    font-size: 18px;
+}
+
+
+#cook-meat-container {
+    background: linear-gradient(to bottom, rgba(128, 68, 4, 0.3), rgba(112, 27, 27, 0.3)); /* rgb for transparency */
+    border: 1px solid #FFA500;
+    border-radius: 10px;
+    position: absolute;
+    padding: 10px;
+    bottom: 1%;
+    right: 1%;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Ensures buttons are centered */
+    text-align: center; /* Centers the <p> text */
+    justify-content: center;  /* Vertically center items */
+    width: 250px;  /* Set a fixed width */
+    height: 200px;  /* Set a fixed height */
+    text-shadow: 2px 2px 5px black;
+}
+
+#cook-meat-container button {
+    border: 2px solid #777777;
+    width: 150px;
+    height: 30px;
+    margin: 10px;
+    background: linear-gradient(to bottom, #111111, #555555);
+    color: #FFA500;
+    text-shadow: 2px 2px 5px black;
+}
+#cook-meat-container button:hover{
+    border: 2px solid #999999;
+    margin: 10px;
+    background: linear-gradient(to bottom, #111111, #666666);
+    color: #FFA500;
+}
+
+#boil-water-container {
+    background: linear-gradient(to bottom, rgba(128, 68, 4, 0.3), rgba(112, 27, 27, 0.3)); /* rgb for transparency */
+    border: 1px solid #FFA500;
+    border-radius: 10px;
+    position: absolute;
+    padding: 10px;
+    bottom: 2%;
+    right: 1%;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Ensures buttons are centered */
+    text-align: center; /* Centers the <p> text */
+    justify-content: center;  /* Vertically center items */
+    width: 250px;  /* Set a fixed width */
+    height: 300px;  /* Set a fixed height */
+    text-shadow: 2px 2px 5px black;
+}
+
+#boil-water-container button {
+    border: 2px solid #777777;
+    width: 150px;
+    height: 30px;
+    margin: 10px;
+    background: linear-gradient(to bottom, #111111, #555555);
+    color: #FFA500;
+    text-shadow: 2px 2px 5px black;
+}
+#boil-water-container button:hover{
+    border: 2px solid #999999;
+    margin: 10px;
+    background: linear-gradient(to bottom, #111111, #666666);
+    color: #FFA500;
+}
+
+
+
+#chloe-menu-container {
+    border: 1px solid #FFA500;
+    border-radius: 10px;
+    padding: 10px;
+    position: absolute;
+    top: 20%;
+    right: 10%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: row;  /* Align radio buttons and text in a row */
+    align-items: center;  /* Vertically center items */
+    justify-content: center;  /* Center items horizontally */
+    text-shadow: 2px 2px 5px black;
+}
+#chloe-menu-container p {
+    color: #FFA500;
+    text-align: center;  /* Center the text inside the <p> tag */
+    margin: 0;
+}
+#chloe-menu-container input[type="radio"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    border: 2px solid #4ec1db;
+    background-color: #000000;
+}
+#chloe-menu-container input[type="radio"]:checked {
+    background-color: #059fff;
+}
+#chloe-menu-container label {
+    margin-left: 5px;  /* Space between button and text */
+    color: #FFA500;    /* Text color */
+    cursor: pointer;   /* Makes label clickable */
+}
+
+#chloe-menu-container button {
+    border: 2px solid #777777;
+    width: 100px;  /* Fixed width for consistency */
+    height: 25px;
+    margin: 10px;
+    padding: 5px;
+    background: linear-gradient(to bottom, #111111, #555555);
+    color: #FFA500;
+
+    /* Remove grid, use flex for centering text */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center; /* Centers text */
+}
+
+/* GIFT MENU */
+.giftmenu {
+    background: linear-gradient(to bottom, rgba(128, 68, 4, 0.3), rgba(112, 27, 27, 0.3)); /* Transparent background */
+    border: 1px solid #FFA500;
+    border-radius: 10px;
+    position: absolute;
+    top: 14%;
+    right: 0%;
+    transform: translateX(-50%);
+    background-color: #444;
+    color: #FFA500;
+    padding: 10px;
+    border-radius: 5px;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;  /* Prevent interaction when hidden */
+    display: none;  /* Hidden by default */
+    z-index: 999;
+
+    /* Center children vertically */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.giftmenu.show {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    display: flex !important;  /* Ensure display is flex */
+    transition: opacity 0.3s ease-in-out, visibility 0s;  /* Fade in transition */
+}
+
+.giftmenu button {
+    border: 2px solid #777777;
+    width: 120px;  /* Fixed width for consistency */
+    height: 35px;
+    margin: 10px;
+    padding: 5px;
+    background: linear-gradient(to bottom, #111111, #555555);
+    color: #FFA500;
+
+    /* Remove grid, use flex for centering text */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center; /* Centers text */
+}
+
+.giftmenu button:hover {
+    border: 2px solid #999999;
+    background: linear-gradient(to bottom, #111111, #666666);
+    color: #FFA500;
+}
+
+/* Close button */
+.giftmenu .close-btn {
+    position: absolute;
+    top: -26px; /* Move it slightly above the border */
+    right: -26px; /* Move it slightly outside the border */
+    background-color: red;
+    color: white;
+    border: 2px solid #FFA500;
+    font-size: 14px; /* Adjust font size for better centering */
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Ensures the "X" is centered */
+    text-align: center;
+    line-height: normal; /* Prevents off-center text */
+}
+
+.giftmenu .close-btn:hover {
+    background-color: darkred;
+}
+
+
+
+#merchant-menu-container {
+    border: 1px solid #FFA500;
+    border-radius: 10px;
+    padding: 10px;
+    position: absolute;
+    top: 70%;
+    left: 80%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: row;  /* Align radio buttons and text in a row */
+    align-items: center;  /* Vertically center items */
+    justify-content: center;  /* Center items horizontally */
+    text-shadow: 2px 2px 5px black;
+}
+#merchant-menu-container p {
+    color: #FFA500;
+    text-align: center;  /* Center the text inside the <p> tag */
+    margin: 0;
+}
+#merchant-menu-container button {
+    border: 2px solid #777777;
+    width: 150px;
+    height: 30px;
+    margin: 10px;
+    background: linear-gradient(to bottom, #111111, #555555);
+    color: #FFA500;
+}
+#merchant-menu-container button:hover {
+    border: 2px solid #999999;
+    margin: 10px;
+    background: linear-gradient(to bottom, #111111, #666666);
+    color: #FFA500;
+}
+
+
+.inventorymenu {
+    background: linear-gradient(to bottom, rgba(128, 68, 4, 0.3), rgba(112, 27, 27, 0.3)); /* Transparent background */
+    border: 1px solid #FFA500;
+    border-radius: 10px;
+    display: none;  /* Hidden by default */
+    position: absolute;
+    top: 10%;
+    left: 22%;
+    transform: translateX(-50%);
+    background-color: #444;
+    color: #FFA500;
+    padding: 20px;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    z-index: 999;
+    visibility: hidden;
+    pointer-events: none;
+
+    /* Grid Layout */
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two equal columns */
+    grid-gap: 20px; /* Spacing between items */
+}
+
+.inventorymenu.show {
+    opacity: 1;  /* Fade in */
+    visibility: visible;  /* Ensure it's visible */
+    pointer-events: auto;  /* Allows interactions */
+    transition: opacity 0.3s ease-in-out, visibility 0s;  /* Instantly show visibility when fading in */
+}
+
+.inventory-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+#inventory-left {
+    border: 1px solid #FFA500;
+    border-radius: 10px;
+}
+#inventory-right {
+    border: 1px solid #FFA500;
+    border-radius: 10px;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+/* Ensure buttons are aligned beside labels */
+.inventory-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 10px; /* Space between label and button */
+}
+
+/* Style inventory items */
+.inventorymenu button {
+    border: 2px solid #777777;
+    padding: 5px 10px;
+    background: linear-gradient(to bottom, #111111, #555555);
+    color: #FFA500;
+    text-align: center;
+    cursor: pointer;
+    width: 100px;
+}
+
+/* Close button stays at the top-right */
+.inventorymenu .close-btn {
+    position: absolute;
+    top: -15px; /* Move it slightly above the border */
+    right: -15px; /* Move it slightly outside the border */
+    background-color: red;
+    color: white;
+    border: 2px solid #FFA500;
+    font-size: 14px; /* Adjust font size for better centering */
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Ensures the "X" is centered */
+    text-align: center;
+    line-height: normal; /* Prevents off-center text */
+}
+
+
+
+/* CRAFT MENU */
+.craftmenu {
+    background: linear-gradient(to bottom, rgba(128, 68, 4, 0.3), rgba(112, 27, 27, 0.3)); /* rgb for transparency */
+    border: 1px solid #FFA500;
+    border-radius: 10px;
+    display: none;  /* Hidden by default */
+    position: absolute;
+    top: 10%;
+    left: 22%;
+    transform: translateX(-50%);
+    background-color: #444;
+    color: #FFA500;
+    padding: 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    z-index: 999;
+    visibility: hidden;
+    pointer-events: none;
+
+    /* Flex layout to arrange columns side by side */
+    display: flex;
+    justify-content: space-between; /* Space out the columns */
+    text-align: center; /* Centers the <p> text */
+}
+
+.craftmenu.show {
+    display: flex;  /* Ensure it's flex to keep alignment */
+    opacity: 1;  /* Fade in */
+    visibility: visible;
+    pointer-events: auto; /* Allows interactions */
+}
+
+#craft-left, #craft-right {
+    border: 1px solid #FFA500;
+    border-radius: 10px;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.craftmenu button {
+    border: 2px solid #777777;
+    width: 150px;  /* Fixed width for consistency */
+    height: 50px;
+    margin: 10px;
+    padding: 5px;
+    background: linear-gradient(to bottom, #111111, #555555);
+    color: #FFA500;
+    white-space: pre-line;
+
+    /* Remove grid, use flex for centering text */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center; /* Centers text */
+}
+
+.craftmenu button:hover {
+    border: 2px solid #999999;
+    background: linear-gradient(to bottom, #111111, #666666);
+    color: #FFA500;
+}
+
+/* Close button */
+.craftmenu .close-btn {
+    position: absolute;
+    top: -26px; /* Move it slightly above the border */
+    right: -26px; /* Move it slightly outside the border */
+    background-color: red;
+    color: white;
+    border: 2px solid #FFA500;
+    font-size: 14px; /* Adjust font size for better centering */
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Ensures the "X" is centered */
+    text-align: center;
+    line-height: normal; /* Prevents off-center text */
+}
+
+.craftmenu .close-btn:hover {
+    background-color: darkred;
+}
+
+
+
+
+/* EQUIPMENT MENU */
+.equipmentmenu {
+    background: linear-gradient(to bottom, rgba(128, 68, 4, 0.3), rgba(112, 27, 27, 0.3)); /* rgb for transparency */
+    border: 1px solid #FFA500;
+    border-radius: 10px;
+    display: none;  /* Hidden by default */
+    position: absolute;
+    top: 10%;
+    left: 22%;
+    transform: translateX(-50%);
+    background-color: #444;
+    color: #FFA500;
+    padding: 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    z-index: 999;
+    visibility: hidden;
+    pointer-events: none;
+
+    /* Flex layout to arrange columns side by side */
+    display: flex;
+    justify-content: space-between; /* Space out the columns */
+    text-align: center; /* Centers the <p> text */
+}
+
+.equipmentmenu.show {
+    display: flex;  /* Ensure it's flex to keep alignment */
+    opacity: 1;  /* Fade in */
+    visibility: visible;
+    pointer-events: auto; /* Allows interactions */
+}
+
+/* Equipments Column Layout */
+.equipment-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 45%; /* Give each column some width */
+}
+
+/* Equipment Items Layout */
+#equipment-left, #equipment-right {
+    border: 1px solid #FFA500;
+    border-radius: 10px;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+/* Equipment Menu Button Styles */
+.equipmentmenu button {
+    border: 2px solid #777777;
+    width: 150px;  /* Fixed width for consistency */
+    height: 50px;
+    margin: 10px;
+    padding: 5px;
+    background: linear-gradient(to bottom, #111111, #555555);
+    color: #FFA500;
+
+    /* Remove grid, use flex for centering text */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center; /* Centers text */
+}
+
+.equipmentmenu button:hover {
+    border: 2px solid #999999;
+    background: linear-gradient(to bottom, #111111, #666666);
+    color: #FFA500;
+}
+
+/* Close button */
+.equipmentmenu .close-btn {
+    position: absolute;
+    top: -26px; /* Move it slightly above the border */
+    right: -26px; /* Move it slightly outside the border */
+    background-color: red;
+    color: white;
+    border: 2px solid #FFA500;
+    font-size: 14px; /* Adjust font size for better centering */
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Ensures the "X" is centered */
+    text-align: center;
+    line-height: normal; /* Prevents off-center text */
+}
+
+.equipmentmenu .close-btn:hover {
+    background-color: darkred;
+}
+
+
+
+/* SEARCH */
+.search-menu {
+    background: linear-gradient(to bottom, rgba(128, 68, 4, 0.3), rgba(112, 27, 27, 0.3)); /* rgb for transparency */
+    border: 1px solid #FFA500;
+    border-radius: 10px;
+    display: none; /* Hidden by default */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+    z-index: 1000;
+    color: #FFA500;
+}
+
+.search-menu.show {
+    display: block; /* Show when toggled */
+}
+
+.search-menu button {
+    border: 2px solid #777777;
+    width: 150px;  /* Fixed width for consistency */
+    height: 50px;
+    margin: 10px;
+    padding: 5px;
+    background: linear-gradient(to bottom, #111111, #555555);
+    color: #FFA500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center; /* Centers text */
+}
+.search-menu button:hover {
+    border: 2px solid #999999;
+    background: linear-gradient(to bottom, #111111, #666666);
+    color: #FFA500;
+}
+
+.search-menu .close-btn {
+    position: absolute;
+    top: -25px; /* Move it slightly above the border */
+    right: -25px; /* Move it slightly outside the border */
+    background-color: red;
+    color: white;
+    border: 2px solid #FFA500;
+    font-size: 14px; /* Adjust font size for better centering */
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Ensures the "X" is centered */
+    text-align: center;
+    line-height: normal; /* Prevents off-center text */
+}
+
+.search-menu .close-btn:hover {
+    background-color: darkred;
+}
+
+/* BOOK */
+.book-menu {
+    background: linear-gradient(to bottom, rgba(128, 68, 4, 0.3), rgba(112, 27, 27, 0.3)); /* rgb for transparency */
+    border: 1px solid #FFA500;
+    border-radius: 10px;
+    display: none; /* Hidden by default */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+    z-index: 1000;
+}
+
+.book-menu.show {
+    display: block; /* Show when toggled */
+}
+
+.book-menu button {
+    border: 2px solid #777777;
+    width: 150px;  /* Fixed width for consistency */
+    height: 50px;
+    margin: 10px;
+    padding: 5px;
+    background: linear-gradient(to bottom, #111111, #555555);
+    color: #FFA500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center; /* Centers text */
+}
+.book-menu button:hover {
+    border: 2px solid #999999;
+    background: linear-gradient(to bottom, #111111, #666666);
+    color: #FFA500;
+}
+
+.book-menu .close-btn {
+    position: absolute;
+    top: -25px; /* Move it slightly above the border */
+    right: -25px; /* Move it slightly outside the border */
+    background-color: red;
+    color: white;
+    border: 2px solid #FFA500;
+    font-size: 14px; /* Adjust font size for better centering */
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Ensures the "X" is centered */
+    text-align: center;
+    line-height: normal; /* Prevents off-center text */
+}
+
+.book-menu .close-btn:hover {
+    background-color: darkred;
+}
+
+
+
+.bookwindow {
+    border: 8px solid #440303;
+    display: none;  /* Hidden by default */
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    width: 40%;
+    height: 70%;
+    transform: translateX(-50%);
+    background: linear-gradient(to top, #e0d8d0, #FAF0E6);
+    color: #000000;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 19px;
+    line-height: 1.4;
+    font-weight: normal;
+    text-align: justify;
+    padding: 20px;  /* Increased padding to give space for buttons */
+    border-radius: 3px;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    z-index: 1000; /* Higher z-index to make sure it's above other content */
+    pointer-events: none;
+
+    /* Center children vertically */
+    display: none;
+    flex-direction: column;
+    align-items: center; /* Ensures buttons are centered */
+    text-align: center; /* Centers the <p> text */
+}
+
+.bookwindow.show {
+    display: flex !important;  /* Ensure it's flex to keep alignment */
+    opacity: 1;  /* Fade in */
+    pointer-events: auto;
+}
+
+.bookwindow button {
+    border: 2px solid #777777;
+    width: 70px;  /* Fixed width for consistency */
+    height: 35px;
+    background: linear-gradient(to bottom, #111111, #555555);
+    color: #FFA500;
+    font-size: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center; /* Centers text */
+    z-index: 10000; /* Ensure buttons are on top */
+    cursor: pointer; /* Make sure the cursor indicates it's clickable */
+}
+
+.bookwindow button:hover {
+    border: 2px solid #aaaaaa;
+    background: linear-gradient(to bottom, #111111, #666666);
+    color: #FFA500;
+}
+
+.bookwindow .close-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: red;
+    color: white;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    z-index: 10500; /* Higher z-index for the close button */
+}
+
+.bookwindow .close-btn:hover {
+    background-color: darkred;
+}
+
+#Book-Left {
+    position: absolute;
+    left: -60px; /* 10px from the left */
+    top: 50%;
+    transform: translateY(-50%); /* Vertically center the button */
+}
+
+#Book-Right {
+    position: absolute;
+    right: -60px; /* 10px from the right */
+    top: 50%;
+    transform: translateY(-50%); /* Vertically center the button */
+}
+
+
+
+/*TEXT*/
+#text-container {
+    position: absolute;
+    top: 35%;
+    left: 60%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px;  /* Ensure space for 10 messages */
+    display: flex;
+    flex-direction: column-reverse;  /* Display messages from bottom to top */
+    align-items: center;
+    overflow: hidden;
+}
+
+.scrolling-text {
+    font-family: 'Arial', sans-serif;
+    font-size: 20px;
+    text-shadow: 2px 2px 5px #333333;
+    color: black;
+    width: 100%;
+    text-align: center;
+    animation: fadeInUp 0.5s forwards;  /* Only animation for the newest message */
+}
+
+@keyframes fadeInUp {
+    0% {
+        transform: translateY(20px);  /* Start from 20px below */
+    }
+    100% {
+        transform: translateY(0);  /* End at normal position */
+    }
+}
